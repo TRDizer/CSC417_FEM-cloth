@@ -35,7 +35,9 @@ void d2V_membrane_corotational_dq2(Eigen::Matrix99d &H, Eigen::Ref<const Eigen::
     F = x * X;
     // igl::svd3x3(F, U, S, W);
     Eigen::JacobiSVD<Eigen::Matrix3d> svd(F, Eigen::ComputeFullU | Eigen::ComputeFullV);
+    U = svd.matrixU();
     S = svd.singularValues();
+    W = svd.matrixV();
     
     //deal with singularity in the svd gradient
     if(std::fabs(S[0] - S[1]) < tol || std::fabs(S[1] - S[2]) < tol || std::fabs(S[0] - S[2]) < tol) {
